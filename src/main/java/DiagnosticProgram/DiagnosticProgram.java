@@ -5,21 +5,22 @@ import static DiagnosticProgram.Op.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class DiagnosticProgram {
 
   private final int[] program;
   private int PC;
-  private InputStream in;
+  private Scanner scanner;
 
   public DiagnosticProgram(final int[] program) {
     this(program, program[1], program[2]);
-    in = System.in;
+    scanner = new Scanner(System.in);
   }
 
   public DiagnosticProgram(final int[] program, InputStream in) {
     this(program, program[1], program[2]);
-    this.in = in;
+    this.scanner = new Scanner(in);
   }
 
   public DiagnosticProgram(final int[] program, int noun, int verb) {
@@ -46,7 +47,7 @@ public class DiagnosticProgram {
 
   private int executeOp(int opcode) throws IOException {
     switch (opcode % 100) {
-      case INP -> {program[getPositionOfArg(1, opcode / 100)] = in.read(); return 2;}
+      case INP -> {program[getPositionOfArg(1, opcode / 100)] = scanner.nextInt(); return 2;}
       case OUT -> {System.out.println(program[getPositionOfArg(1, opcode / 100)]); return 2;}
     }
 
@@ -55,7 +56,7 @@ public class DiagnosticProgram {
     program[getPositionOfArg(3, opcode / 10000)] = switch (opcode % 100) {
       case ADD -> a + b;
       case MUL -> a * b;
-      default -> throw new IllegalArgumentException("Invalid opcode");
+      default -> throw new IllegalArgumentException("Invalid opcode. opcode: " + opcode + " at position " + getPositionOfArg(0, opcode/ 100));
     };
     return 4;
   }

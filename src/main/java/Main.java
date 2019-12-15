@@ -33,6 +33,7 @@ public class Main {
 //    PasswordPermutation.PasswordPermutation.execute(printStream);
       DiagnosticMain.execute(scanner, printStream);
 
+
     System.out.println("process complete.\nexit...");
   }
 // src/main/resources/input.txt src/main/resources/output.txt

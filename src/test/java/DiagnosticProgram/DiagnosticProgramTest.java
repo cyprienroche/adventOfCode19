@@ -97,6 +97,12 @@ public class DiagnosticProgramTest {
 
   @Test
   public void example2() throws IOException {
+    int[] program0 = {3,20,1,20,6,0,99,99,0,0,0,0,0,0,0,0,0,0,0,0,50};
+    assertThat(new DiagnosticProgram(program0, in).execute().getProgram(), is(new int[]{100,20,1,20,6,0,99,99,0,0,0,0,0,0,0,0,0,0,0,0,1}));
+  }
+
+  @Test
+  public void example3() throws IOException {
     int[] program3 = {3,0,1,0,6,6,1100,1,238,0,4,0,99};
     new DiagnosticProgram(program3, in).execute().getProgram();
     assertEquals("239\n", outContent.toString());

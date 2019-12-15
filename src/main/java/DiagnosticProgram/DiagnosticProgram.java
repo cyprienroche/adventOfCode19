@@ -14,13 +14,9 @@ public class DiagnosticProgram {
   private Scanner scanner;
 
   public DiagnosticProgram(final int[] program) {
-    this(program, System.in);
-  }
-
-  public DiagnosticProgram(final int[] program, InputStream in) {
     this.program = Arrays.copyOf(program, program.length);
     this.PC = 0;
-    this.scanner = new Scanner(in);
+    this.scanner = new Scanner(System.in);
   }
 
   public int[] getProgram() {

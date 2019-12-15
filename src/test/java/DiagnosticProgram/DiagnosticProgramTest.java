@@ -15,17 +15,20 @@ import org.junit.Test;
 
 public class DiagnosticProgramTest {
 
-  private final InputStream in = new ByteArrayInputStream(new byte[]{1});
+  private final ByteArrayInputStream inContent = new ByteArrayInputStream("1".getBytes());
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+  private final InputStream originalIn = System.in;
   private final PrintStream originalOut = System.out;
 
   @Before
   public void setUpStreams() {
+    System.setIn(inContent);
     System.setOut(new PrintStream(outContent));
   }
 
   @After
   public void restoreStreams() {
+    System.setIn(originalIn);
     System.setOut(originalOut);
   }
 
@@ -74,7 +77,7 @@ public class DiagnosticProgramTest {
   @Test
   public void outputWhateverInputIs2() {
     int[] program = {3,0,4,0,99};
-    new DiagnosticProgram(program, in).execute();
+    new DiagnosticProgram(program).execute();
     assertEquals("1\n", outContent.toString());
   }
 
@@ -90,21 +93,21 @@ public class DiagnosticProgramTest {
   public void example1() {
     //3,225,1,225,6,6,1100,1,238,225,104,0,1102,67,92,225,1101,14,84,225,1002,217,69,224,101,-5175,224
     int[] program1 = {3,0,1,0,6,6,1100};
-    assertThat(new DiagnosticProgram(program1, in).execute().getProgram(), is(new int[]{1,0,1,0,6,6,1101}));
+    assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{1,0,1,0,6,6,1101}));
     int[] program2 = {1101,1,238,0,99};
-    assertThat(new DiagnosticProgram(program2, in).execute().getProgram(), is(new int[]{239,1,238,0,99}));
+    assertThat(new DiagnosticProgram(program2).execute().getProgram(), is(new int[]{239,1,238,0,99}));
   }
 
   @Test
   public void example2() {
     int[] program0 = {3,20,1,20,6,0,99,99,0,0,0,0,0,0,0,0,0,0,0,0,50};
-    assertThat(new DiagnosticProgram(program0, in).execute().getProgram(), is(new int[]{100,20,1,20,6,0,99,99,0,0,0,0,0,0,0,0,0,0,0,0,1}));
+    assertThat(new DiagnosticProgram(program0).execute().getProgram(), is(new int[]{100,20,1,20,6,0,99,99,0,0,0,0,0,0,0,0,0,0,0,0,1}));
   }
 
   @Test
   public void example3() {
     int[] program3 = {3,0,1,0,6,6,1100,1,238,0,4,0,99};
-    new DiagnosticProgram(program3, in).execute().getProgram();
+    new DiagnosticProgram(program3).execute().getProgram();
     assertEquals("239\n", outContent.toString());
   }
 }

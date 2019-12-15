@@ -1,12 +1,10 @@
 package DiagnosticProgram;
 
+import static DiagnosticProgram.Op.*;
+
 import java.util.Arrays;
 
 public class DiagnosticProgram {
-
-  private static final int HALT = 99;
-  private static final int ADD = 1;
-  private static final int MUL = 2;
 
   private final int[] program;
   private int PC;

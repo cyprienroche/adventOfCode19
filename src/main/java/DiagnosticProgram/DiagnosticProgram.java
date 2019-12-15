@@ -2,6 +2,7 @@ package DiagnosticProgram;
 
 import static DiagnosticProgram.Op.*;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class DiagnosticProgram {
@@ -24,7 +25,7 @@ public class DiagnosticProgram {
     return program;
   }
 
-  public DiagnosticProgram execute() {
+  public DiagnosticProgram execute() throws IOException {
     while (PC + 3 < program.length) {
       int opcode = program[PC];
       if (opcode == HALT) {
@@ -36,13 +37,18 @@ public class DiagnosticProgram {
     return this;
   }
 
-  private void executeOp(int opcode) {
+  private void executeOp(int opcode) throws IOException {
     int a = program[getPositionOfArg(1)];
+    switch (opcode) {
+      case INP -> program[a] = System.in.read();
+      case OUT -> System.out.println(a);
+    }
+
     int b = program[getPositionOfArg(2)];
     program[getPositionOfArg(3)] = switch (opcode) {
       case ADD -> a + b;
       case MUL -> a * b;
-      default -> 0;
+      default -> throw new IllegalArgumentException("Invalid opcode");
     };
   }
 

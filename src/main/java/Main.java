@@ -28,7 +28,7 @@ public class Main {
 //    IntCodeMachine.IntcodeMachineMain.findVerbAndNounForValue(scanner, printStream, 19690720);
 //    CrossingWires.ManhattanDistanceCalculator.execute(scanner, printStream);
 //    CrossingWires.MinimalStepsIntersectionCalculator.execute(scanner, printStream);
-    PasswordPermutation.PasswordPermutation.execute(printStream);
+//    PasswordPermutation.PasswordPermutation.execute(printStream);
 
     System.out.println("process complete.\nexit...");
   }

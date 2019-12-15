@@ -1,12 +1,34 @@
 package DiagnosticProgram;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class DiagnosticProgramTest {
+
+  private final InputStream in = new ByteArrayInputStream(new byte[]{1});
+  private final OutputStream outContent = new ByteArrayOutputStream();
+  private final PrintStream originalOut = System.out;
+
+  @Before
+  public void setUpStreams() {
+    System.setOut(new PrintStream(outContent));
+  }
+
+  @After
+  public void restoreStreams() {
+    System.setOut(originalOut);
+  }
 
   @Test
   public void haltOnOpcode99() throws IOException {
@@ -48,5 +70,12 @@ public class DiagnosticProgramTest {
                                                                        2,3,11,0,
                                                                        99,
                                                                        30,40,50}));
+  }
+
+  @Test
+  public void outputWhateverInputIs2() throws IOException {
+    int[] program1 = {3,0,4,0,99};
+    new DiagnosticProgram(program1, in, outContent).execute();
+    assertEquals("1\n", outContent.toString());
   }
 }

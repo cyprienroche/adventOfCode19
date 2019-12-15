@@ -2,7 +2,7 @@ package DiagnosticProgram;
 
 import java.util.Arrays;
 
-public class IntcodeMachine {
+public class DiagnosticProgram {
 
   private static final int HALT = 99;
   private static final int ADD = 1;
@@ -11,11 +11,11 @@ public class IntcodeMachine {
   private final int[] program;
   private int PC;
 
-  public IntcodeMachine(final int[] program) {
+  public DiagnosticProgram(final int[] program) {
     this(program, program[1], program[2]);
   }
 
-  public IntcodeMachine(final int[] program, int noun, int verb) {
+  public DiagnosticProgram(final int[] program, int noun, int verb) {
     this.program = Arrays.copyOf(program, program.length);
     this.PC = 0;
     this.program[1] = noun;
@@ -26,7 +26,7 @@ public class IntcodeMachine {
     return program;
   }
 
-  public IntcodeMachine execute() {
+  public DiagnosticProgram execute() {
     while (PC + 3 < program.length) {
       int opcode = program[PC];
       if (opcode == HALT) {

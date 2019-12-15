@@ -4,6 +4,10 @@ import java.util.Arrays;
 
 public class IntcodeMachine {
 
+  private static final int HALT = 99;
+  private static final int ADD = 1;
+  private static final int MUL = 2;
+
   private final int[] program;
   private int PC;
 
@@ -13,9 +17,9 @@ public class IntcodeMachine {
 
   public IntcodeMachine(final int[] program, int noun, int verb) {
     this.program = Arrays.copyOf(program, program.length);
+    this.PC = 0;
     this.program[1] = noun;
     this.program[2] = verb;
-    this.PC = 0;
   }
 
   public int[] getProgram() {
@@ -25,7 +29,7 @@ public class IntcodeMachine {
   public IntcodeMachine execute() {
     while (PC + 3 < program.length) {
       int opcode = program[PC];
-      if (opcode == Operator.HALT) {
+      if (opcode == HALT) {
         return this;
       }
       executeOp(opcode);
@@ -37,7 +41,11 @@ public class IntcodeMachine {
   private void executeOp(int opcode) {
     int a = program[getPositionOfArg(1)];
     int b = program[getPositionOfArg(2)];
-    program[getPositionOfArg(3)] = Operator.operators()[opcode - 1].apply(a,b);
+    program[getPositionOfArg(3)] = switch (opcode) {
+      case ADD -> a + b;
+      case MUL -> a * b;
+      default -> 0;
+    };
   }
 
   private int getPositionOfArg(int i) {

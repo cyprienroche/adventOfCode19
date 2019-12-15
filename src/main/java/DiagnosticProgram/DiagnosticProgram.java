@@ -39,53 +39,63 @@ public class DiagnosticProgram {
   private int executeOp() {
     switch (getOpcode()) {
       case INP -> {
-        setArg(1, scanner.nextInt());
-        return 2;
+        return executeInp();
       }
       case OUT -> {
-        printStream.println(getArg(1));
-        return 2;
+        return executeOut();
       }
       case ADD -> {
-        setArg(3, getArg(1) + getArg(2));
-        return 4;
+        return executeBOp(getArg(1) + getArg(2));
       }
       case MUL -> {
-        setArg(3, getArg(1) * getArg(2));
-        return 4;
+        return executeBOp(getArg(1) * getArg(2));
       }
       case JPT -> {
-        if (getArg(1) != 0) {
-          PC = getArg(2);
-          return 0;
-        }
-        return 3;
+        return executeJmp(getArg(1) != 0);
       }
       case JPF -> {
-        if (getArg(1) == 0) {
-          PC = getArg(2);
-          return 0;
-        }
-        return 3;
+        return executeJmp(getArg(1) == 0);
       }
       case LTH -> {
-        if (getArg(1) < getArg(2)) {
-          setArg(3, 1);
-        } else {
-          setArg(3, 0);
-        }
-        return 4;
+        return executeCmp(getArg(1) < getArg(2));
       }
       case EQU -> {
-        if (getArg(1) == getArg(2)) {
-          setArg(3, 1);
-        } else {
-          setArg(3, 0);
-        }
-        return 4;
+        return executeCmp(getArg(1) == getArg(2));
       }
       default -> throw new IllegalArgumentException(illegalArgMessage(code));
     }
+  }
+
+  private int executeCmp(boolean cmp) {
+    if (cmp) {
+      setArg(3, 1);
+    } else {
+      setArg(3, 0);
+    }
+    return 4;
+  }
+
+  private int executeJmp(boolean jump) {
+    if (jump) {
+      PC = getArg(2);
+      return 0;
+    }
+    return 3;
+  }
+
+  private int executeBOp(int value) {
+    setArg(3, value);
+    return 4;
+  }
+
+  private int executeOut() {
+    printStream.println(getArg(1));
+    return 2;
+  }
+
+  private int executeInp() {
+    setArg(1, scanner.nextInt());
+    return 2;
   }
 
   private void setArg(int i, int value) {

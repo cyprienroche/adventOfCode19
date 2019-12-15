@@ -74,8 +74,14 @@ public class DiagnosticProgramTest {
 
   @Test
   public void outputWhateverInputIs2() throws IOException {
-    int[] program1 = {3,0,4,0,99};
-    new DiagnosticProgram(program1, in, outContent).execute();
+    int[] program = {3,0,4,0,99};
+    new DiagnosticProgram(program, in, outContent).execute();
     assertEquals("1\n", outContent.toString());
+  }
+
+  @Test
+  public void canHandlePositionAndImmediateMode() throws IOException {
+    int[] program = {1002,4,3,4,33};
+    assertThat(new DiagnosticProgram(program).execute().getProgram(), is(new int[]{1002,4,3,4,99}));
   }
 }

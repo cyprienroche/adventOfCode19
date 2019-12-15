@@ -49,14 +49,14 @@ public class DiagnosticProgram {
   }
 
   private int executeOp(int opcode) throws IOException {
-    switch (opcode) {
-      case INP -> {program[getPositionOfArg(1)] = in.read(); return 2;}
-      case OUT -> {System.out.println(program[getPositionOfArg(1)]); return 2;}
+    switch (opcode % 100) {
+      case INP -> {program[getPositionOfArg(1, opcode / 100)] = in.read(); return 2;}
+      case OUT -> {System.out.println(program[getPositionOfArg(1, opcode / 100)]); return 2;}
     }
 
-    int a = program[getPositionOfArg(1)];
-    int b = program[getPositionOfArg(2)];
-    program[getPositionOfArg(3)] = switch (opcode) {
+    int a = program[getPositionOfArg(1, opcode / 100)];
+    int b = program[getPositionOfArg(2, opcode / 1000)];
+    program[getPositionOfArg(3, opcode / 10000)] = switch (opcode % 100) {
       case ADD -> a + b;
       case MUL -> a * b;
       default -> throw new IllegalArgumentException("Invalid opcode");
@@ -64,7 +64,10 @@ public class DiagnosticProgram {
     return 4;
   }
 
-  private int getPositionOfArg(int i) {
+  private int getPositionOfArg(int i, int code) {
+    if (code % 10 == 1) {
+      return PC + i;
+    }
     return program[PC + i];
   }
 }

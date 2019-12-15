@@ -4,7 +4,6 @@ import static DiagnosticProgram.Op.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 
 public class DiagnosticProgram {
@@ -12,18 +11,15 @@ public class DiagnosticProgram {
   private final int[] program;
   private int PC;
   private InputStream in;
-  private OutputStream out;
 
   public DiagnosticProgram(final int[] program) {
     this(program, program[1], program[2]);
     in = System.in;
-    out = System.out;
   }
 
-  public DiagnosticProgram(final int[] program, InputStream in, OutputStream out) {
+  public DiagnosticProgram(final int[] program, InputStream in) {
     this(program, program[1], program[2]);
     this.in = in;
-    this.out = out;
   }
 
   public DiagnosticProgram(final int[] program, int noun, int verb) {

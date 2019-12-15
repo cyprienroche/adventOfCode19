@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +16,7 @@ import org.junit.Test;
 public class DiagnosticProgramTest {
 
   private final InputStream in = new ByteArrayInputStream(new byte[]{1});
-  private final OutputStream outContent = new ByteArrayOutputStream();
+  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
 
   @Before
@@ -75,13 +74,31 @@ public class DiagnosticProgramTest {
   @Test
   public void outputWhateverInputIs2() throws IOException {
     int[] program = {3,0,4,0,99};
-    new DiagnosticProgram(program, in, outContent).execute();
+    new DiagnosticProgram(program, in).execute();
     assertEquals("1\n", outContent.toString());
   }
 
   @Test
   public void canHandlePositionAndImmediateMode() throws IOException {
-    int[] program = {1002,4,3,4,33};
-    assertThat(new DiagnosticProgram(program).execute().getProgram(), is(new int[]{1002,4,3,4,99}));
+    int[] program1 = {1002,4,3,4,33};
+    int[] program2 = {1101,100,-1,4,0};
+    assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{1002,4,3,4,99}));
+    assertThat(new DiagnosticProgram(program2).execute().getProgram(), is(new int[]{1101,100,-1,4,99}));
+  }
+
+  @Test
+  public void example1() throws IOException {
+    //3,225,1,225,6,6,1100,1,238,225,104,0,1102,67,92,225,1101,14,84,225,1002,217,69,224,101,-5175,224
+    int[] program1 = {3,0,1,0,6,6,1100};
+    assertThat(new DiagnosticProgram(program1, in).execute().getProgram(), is(new int[]{1,0,1,0,6,6,1101}));
+    int[] program2 = {1101,1,238,0,99};
+    assertThat(new DiagnosticProgram(program2, in).execute().getProgram(), is(new int[]{239,1,238,0,99}));
+  }
+
+  @Test
+  public void example2() throws IOException {
+    int[] program3 = {3,0,1,0,6,6,1100,1,238,0,4,0,99};
+    new DiagnosticProgram(program3, in).execute().getProgram();
+    assertEquals("239\n", outContent.toString());
   }
 }

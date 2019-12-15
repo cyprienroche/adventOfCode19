@@ -1,8 +1,10 @@
 package DiagnosticProgram;
 
 public final class Op {
+  /* Constant Interface Anti-pattern - https://dzone.com/articles/constants-in-java-the-anti-pattern-1 */
 
-  private Op(){}
+  private Op() {
+  }
 
   public static final int HALT = 99;
   public static final int ADD = 1;

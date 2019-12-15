@@ -9,5 +9,9 @@ public final class Op {
   public static final int MUL = 2;
   public static final int INP = 3;
   public static final int OUT = 4;
+  public static final int JPT = 5;
+  public static final int JPF = 6;
+  public static final int LTH = 7;
+  public static final int EQU = 8;
 
 }

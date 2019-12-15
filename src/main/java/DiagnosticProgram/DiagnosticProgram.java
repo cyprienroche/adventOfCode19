@@ -30,7 +30,8 @@ public class DiagnosticProgram {
         return this;
       }
       code = opcode;
-      PC += executeOp();
+      int next = executeOp();
+      PC += next;
     }
     return this;
   }
@@ -51,6 +52,36 @@ public class DiagnosticProgram {
       }
       case MUL -> {
         setArg(3, getArg(1) * getArg(2));
+        return 4;
+      }
+      case JPT -> {
+        if (getArg(1) != 0) {
+          PC = getArg(2);
+          return 0;
+        }
+        return 3;
+      }
+      case JPF -> {
+        if (getArg(1) == 0) {
+          PC = getArg(2);
+          return 0;
+        }
+        return 3;
+      }
+      case LTH -> {
+        if (getArg(1) < getArg(2)) {
+          setArg(3, 1);
+        } else {
+          setArg(3, 0);
+        }
+        return 4;
+      }
+      case EQU -> {
+        if (getArg(1) == getArg(2)) {
+          setArg(3, 1);
+        } else {
+          setArg(3, 0);
+        }
         return 4;
       }
       default -> throw new IllegalArgumentException(illegalArgMessage(code));

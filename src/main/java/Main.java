@@ -30,7 +30,7 @@ public class Main {
 //    CrossingWires.ManhattanDistanceCalculator.execute(scanner, printStream);
 //    CrossingWires.MinimalStepsIntersectionCalculator.execute(scanner, printStream);
 //    PasswordPermutation.PasswordPermutation.execute(printStream);
-      DiagnosticMain.execute(scanner, printStream);
+//      DiagnosticMain.execute(scanner, printStream);
 
 
     System.out.println("process complete.\nexit...");

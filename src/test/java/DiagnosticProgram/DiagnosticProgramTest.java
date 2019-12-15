@@ -113,17 +113,17 @@ public class DiagnosticProgramTest {
   @Test
   public void jumpsIfFirstParameterIsNonZero() {
     int[] program1 = {5,1,7,1,0,2,0,99};
-    int[] program2 = {5,0,7,1,0,2,0,99};
+    int[] program2 = {5,4,7,1,0,2,0,99};
     assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{5,1,7,1,0,2,0,99}));
-    assertThat(new DiagnosticProgram(program2).execute().getProgram(), is(new int[]{12,0,7,1,0,2,0,99}));
+    assertThat(new DiagnosticProgram(program2).execute().getProgram(), is(new int[]{12,4,7,1,0,2,0,99}));
   }
 
   @Test
   public void jumpsIfFirstParameterIsZero() {
-    int[] program1 = {6,0,7,1,0,2,0,99};
-    int[] program2 = {6,1,7,1,0,2,0,99};
-    assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{6,1,7,1,0,2,0,99}));
-    assertThat(new DiagnosticProgram(program2).execute().getProgram(), is(new int[]{13,0,7,1,0,2,0,99}));
+    int[] program1 = {6,4,7,1,0,2,0,99};
+    int[] program2 = {6,3,7,1,0,2,0,99};
+    assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{6,4,7,1,0,2,0,99}));
+    assertThat(new DiagnosticProgram(program2).execute().getProgram(), is(new int[]{13,3,7,1,0,2,0,99}));
   }
 
   @Test
@@ -137,9 +137,9 @@ public class DiagnosticProgramTest {
   @Test
   public void storesOneInPosOfThirdParameterIfFirstParameterIsEqualToSecond() {
     int[] program1 = {8,3,3,0,99};
-    int[] program2 = {8,3,7,0,99};
+    int[] program2 = {8,3,4,0,99};
     assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{1,3,3,0,99}));
-    assertThat(new DiagnosticProgram(program2).execute().getProgram(), is(new int[]{0,3,7,0,99}));
+    assertThat(new DiagnosticProgram(program2).execute().getProgram(), is(new int[]{0,3,4,0,99}));
   }
 
   @Test

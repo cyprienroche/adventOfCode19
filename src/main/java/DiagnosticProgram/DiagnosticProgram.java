@@ -2,8 +2,6 @@ package DiagnosticProgram;
 
 import static DiagnosticProgram.Op.*;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -12,6 +10,7 @@ public class DiagnosticProgram {
   private final int[] program;
   private int PC;
   private Scanner scanner;
+  private int code;
 
   public DiagnosticProgram(final int[] program) {
     this.program = Arrays.copyOf(program, program.length);
@@ -25,35 +24,52 @@ public class DiagnosticProgram {
 
   public DiagnosticProgram execute() {
     while (PC + 1 < program.length) {
-      int opcode = program[PC];
-      if (opcode == HALT) {
+      int code = program[PC];
+      if (code == HALT) {
         return this;
       }
-      PC += executeOp(opcode);;
+      this.code = code;
+      PC += executeOp();
     }
     return this;
   }
 
-  private int executeOp(int opcode) {
-    switch (opcode % 100) {
-      case INP -> {program[getPositionOfArg(1, opcode / 100)] = scanner.nextInt(); return 2;}
-      case OUT -> {System.out.println(program[getPositionOfArg(1, opcode / 100)]); return 2;}
+  private int executeOp() {
+    switch (getOpcode()) {
+      case INP -> {
+        program[getPositionOfArg(1)] = scanner.nextInt();
+        return 2;
+      }
+      case OUT -> {
+        System.out.println(program[getPositionOfArg(1)]);
+        return 2;
+      }
     }
 
-    int a = program[getPositionOfArg(1, opcode / 100)];
-    int b = program[getPositionOfArg(2, opcode / 1000)];
-    program[getPositionOfArg(3, opcode / 10000)] = switch (opcode % 100) {
+    int a = program[getPositionOfArg(1)];
+    int b = program[getPositionOfArg(2)];
+    program[getPositionOfArg(3)] = switch (getOpcode()) {
       case ADD -> a + b;
       case MUL -> a * b;
-      default -> throw new IllegalArgumentException("Invalid opcode. opcode: " + opcode + " at position " + getPositionOfArg(0, opcode/ 100));
+      default -> throw new IllegalArgumentException(illegalArgMessage(code));
     };
     return 4;
   }
 
-  private int getPositionOfArg(int i, int code) {
-    if (code % 10 == 1) {
-      return PC + i;
-    }
-    return program[PC + i];
+  private int getOpcode() {
+    return code % 100;
+  }
+
+  private String illegalArgMessage(int opcode) {
+    return String.format("Invalid opcode. opcode: %d at PC %d", opcode, PC);
+  }
+
+  private int getPositionOfArg(int i) {
+    int argImmDigit = code / (int) Math.pow(10, i + 1);
+    return isImmediate(argImmDigit) ? PC + i : program[PC + i];
+  }
+
+  private boolean isImmediate(int code) {
+    return code % 10 == 1;
   }
 }

@@ -91,7 +91,6 @@ public class DiagnosticProgramTest {
 
   @Test
   public void example1() {
-    //3,225,1,225,6,6,1100,1,238,225,104,0,1102,67,92,225,1101,14,84,225,1002,217,69,224,101,-5175,224
     int[] program1 = {3,0,1,0,6,6,1100};
     assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{1,0,1,0,6,6,1101}));
     int[] program2 = {1101,1,238,0,99};

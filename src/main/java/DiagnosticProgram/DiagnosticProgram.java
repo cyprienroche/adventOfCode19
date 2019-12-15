@@ -14,27 +14,20 @@ public class DiagnosticProgram {
   private Scanner scanner;
 
   public DiagnosticProgram(final int[] program) {
-    this(program, program[1], program[2]);
-    scanner = new Scanner(System.in);
+    this(program, System.in);
   }
 
   public DiagnosticProgram(final int[] program, InputStream in) {
-    this(program, program[1], program[2]);
-    this.scanner = new Scanner(in);
-  }
-
-  public DiagnosticProgram(final int[] program, int noun, int verb) {
     this.program = Arrays.copyOf(program, program.length);
     this.PC = 0;
-    this.program[1] = noun;
-    this.program[2] = verb;
+    this.scanner = new Scanner(in);
   }
 
   public int[] getProgram() {
     return program;
   }
 
-  public DiagnosticProgram execute() throws IOException {
+  public DiagnosticProgram execute() {
     while (PC + 1 < program.length) {
       int opcode = program[PC];
       if (opcode == HALT) {
@@ -45,7 +38,7 @@ public class DiagnosticProgram {
     return this;
   }
 
-  private int executeOp(int opcode) throws IOException {
+  private int executeOp(int opcode) {
     switch (opcode % 100) {
       case INP -> {program[getPositionOfArg(1, opcode / 100)] = scanner.nextInt(); return 2;}
       case OUT -> {System.out.println(program[getPositionOfArg(1, opcode / 100)]); return 2;}

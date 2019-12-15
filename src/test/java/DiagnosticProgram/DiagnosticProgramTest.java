@@ -30,7 +30,7 @@ public class DiagnosticProgramTest {
   }
 
   @Test
-  public void haltOnOpcode99() throws IOException {
+  public void haltOnOpcode99() {
     int[] program = {99,1,2,3,
                       4,5,6,7};
     assertThat(new DiagnosticProgram(program).execute().getProgram(), is(program));
@@ -44,7 +44,7 @@ public class DiagnosticProgramTest {
   }
 
   @Test
-  public void multiplyOnOpcode2() throws IOException {
+  public void multiplyOnOpcode2() {
     int[] program1 = {2,3,0,3,
                      99};
     assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{2,3,0,6,99}));
@@ -55,7 +55,7 @@ public class DiagnosticProgramTest {
   }
 
   @Test
-  public void canExecuteComplexPrograms() throws IOException {
+  public void canExecuteComplexPrograms() {
     int[] program1 = { 1,1,1,4,
                       99,5,6,0,
                       99};
@@ -72,14 +72,14 @@ public class DiagnosticProgramTest {
   }
 
   @Test
-  public void outputWhateverInputIs2() throws IOException {
+  public void outputWhateverInputIs2() {
     int[] program = {3,0,4,0,99};
     new DiagnosticProgram(program, in).execute();
     assertEquals("1\n", outContent.toString());
   }
 
   @Test
-  public void canHandlePositionAndImmediateMode() throws IOException {
+  public void canHandlePositionAndImmediateMode() {
     int[] program1 = {1002,4,3,4,33};
     int[] program2 = {1101,100,-1,4,0};
     assertThat(new DiagnosticProgram(program1).execute().getProgram(), is(new int[]{1002,4,3,4,99}));
@@ -87,7 +87,7 @@ public class DiagnosticProgramTest {
   }
 
   @Test
-  public void example1() throws IOException {
+  public void example1() {
     //3,225,1,225,6,6,1100,1,238,225,104,0,1102,67,92,225,1101,14,84,225,1002,217,69,224,101,-5175,224
     int[] program1 = {3,0,1,0,6,6,1100};
     assertThat(new DiagnosticProgram(program1, in).execute().getProgram(), is(new int[]{1,0,1,0,6,6,1101}));
@@ -96,13 +96,13 @@ public class DiagnosticProgramTest {
   }
 
   @Test
-  public void example2() throws IOException {
+  public void example2() {
     int[] program0 = {3,20,1,20,6,0,99,99,0,0,0,0,0,0,0,0,0,0,0,0,50};
     assertThat(new DiagnosticProgram(program0, in).execute().getProgram(), is(new int[]{100,20,1,20,6,0,99,99,0,0,0,0,0,0,0,0,0,0,0,0,1}));
   }
 
   @Test
-  public void example3() throws IOException {
+  public void example3() {
     int[] program3 = {3,0,1,0,6,6,1100,1,238,0,4,0,99};
     new DiagnosticProgram(program3, in).execute().getProgram();
     assertEquals("239\n", outContent.toString());

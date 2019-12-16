@@ -4,33 +4,14 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class DiagnosticProgramTest {
 
-  private final ByteArrayInputStream inContent = new ByteArrayInputStream("1".getBytes());
-  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-  private final InputStream originalIn = System.in;
-  private final PrintStream originalOut = System.out;
-
-  @Before
-  public void setUpStreams() {
-    System.setIn(inContent);
-    System.setOut(new PrintStream(outContent));
-  }
-
-  @After
-  public void restoreStreams() {
-    System.setIn(originalIn);
-    System.setOut(originalOut);
-  }
+  @Rule
+  public final SetUpIOTesting ioTesting = new SetUpIOTesting();
 
   @Test
   public void haltOnOpcode99() {
@@ -77,7 +58,7 @@ public class DiagnosticProgramTest {
   public void outputWhateverInputIs2() {
     int[] program = {3, 0, 4, 0, 99};
     new DiagnosticProgram(program).execute();
-    assertEquals("1\n", outContent.toString());
+    assertEquals("1\n", ioTesting.getOutContent());
   }
 
   @Test
@@ -111,7 +92,7 @@ public class DiagnosticProgramTest {
   public void example3() {
     int[] program3 = {3, 0, 1, 0, 6, 6, 1100, 1, 238, 0, 4, 0, 99};
     new DiagnosticProgram(program3).execute().getProgram();
-    assertEquals("239\n", outContent.toString());
+    assertEquals("239\n", ioTesting.getOutContent());
   }
 
   @Test
@@ -158,14 +139,14 @@ public class DiagnosticProgramTest {
   public void ifInputEqualEightOutputOneElseOutputZero() {
     int[] program1 = {3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8};
     new DiagnosticProgram(program1).execute();
-    assertEquals("0\n", outContent.toString());
+    assertEquals("0\n", ioTesting.getOutContent());
   }
 
   @Test
   public void ifInputLessThanEightOutputOneElseOutputZero() {
     int[] program1 = {3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8};
     new DiagnosticProgram(program1).execute();
-    assertEquals("1\n", outContent.toString());
+    assertEquals("1\n", ioTesting.getOutContent());
   }
 
 
@@ -173,14 +154,14 @@ public class DiagnosticProgramTest {
   public void ifInputEqualEightOutputOneElseOutputZeroImmediateMode() {
     int[] program1 = {3, 3, 1108, -1, 8, 3, 4, 3, 99};
     new DiagnosticProgram(program1).execute();
-    assertEquals("0\n", outContent.toString());
+    assertEquals("0\n", ioTesting.getOutContent());
   }
 
   @Test
   public void ifInputLessThanEightOutputOneElseOutputZeroImmediateMode() {
     int[] program1 = {3, 3, 1107, -1, 8, 3, 4, 3, 99};
     new DiagnosticProgram(program1).execute();
-    assertEquals("1\n", outContent.toString());
+    assertEquals("1\n", ioTesting.getOutContent());
   }
 
   @Test
@@ -189,6 +170,6 @@ public class DiagnosticProgramTest {
         1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20, 1105, 1, 46, 104,
         999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99};
     new DiagnosticProgram(program1).execute();
-    assertEquals("999\n", outContent.toString());
+    assertEquals("999\n", ioTesting.getOutContent());
   }
 }

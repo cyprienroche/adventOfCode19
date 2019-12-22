@@ -30,15 +30,6 @@ public class UMOTest {
     assertEquals(2, umo.getOrbitNumber());
   }
 
-  @Test
-  public void example3() {
-    UMO umo = new UMO(new String[]{
-        "COM)B",
-        "B)C",
-        "B)D",
-    });
-    assertEquals(5, umo.getOrbitNumber());
-  }
 
   @Test
   public void exampleComplex() {
@@ -54,6 +45,24 @@ public class UMOTest {
         "E)J",
         "J)K",
         "K)L",
+    });
+    assertEquals(42, umo.getOrbitNumber());
+  }
+
+  @Test
+  public void exampleComplexChangingOrder() {
+    UMO umo = new UMO(new String[]{
+        "COM)B",
+        "J)K",
+        "K)L",
+        "B)C",
+        "C)D",
+        "D)E",
+        "E)F",
+        "G)H",
+        "D)I",
+        "B)G",
+        "E)J",
     });
     assertEquals(42, umo.getOrbitNumber());
   }

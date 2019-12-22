@@ -22,15 +22,11 @@ public class UMO {
   }
 
   private int countOrbit(String orbitCenter, String orbitingPlanet) {
-    int oldCount = 0;
     Optional<Entry<String, String>> grandparent = orbitSet
         .stream()
         .filter(e -> e.getValue().equals(orbitCenter))
         .findFirst();
-    if (grandparent.isPresent()) {
-      oldCount = countOrbit(grandparent.get().getKey(), orbitCenter);
-    }
-    return 1 + oldCount;
+    return 1 + grandparent.map(e -> countOrbit(e.getKey(), orbitCenter)).orElse(0);
   }
 
   public int getOrbitNumber() {

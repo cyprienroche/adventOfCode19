@@ -26,6 +26,7 @@ public class UMOTest {
     UMO umo = new UMO(new String[]{
         "COM)B",
         "COM)C",
+
     });
     assertEquals(2, umo.getOrbitNumber());
   }

@@ -13,7 +13,16 @@ public class UMOTest {
   }
 
   @Test
-  public void example() {
+  public void example1() {
+    UMO umo = new UMO(new String[]{
+        "COM)B",
+        "B)C",
+    });
+    assertEquals(3, umo.getOrbitNumber());
+  }
+
+  @Test
+  public void exampleComplex() {
     UMO umo = new UMO(new String[]{
         "COM)B",
         "B)C",

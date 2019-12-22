@@ -1,4 +1,5 @@
 import DiagnosticProgram.DiagnosticMain;
+import UniversalOrbitMap.UMOMain;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -31,6 +32,7 @@ public class Main {
 //    CrossingWires.MinimalStepsIntersectionCalculator.execute(scanner, printStream);
 //    PasswordPermutation.PasswordPermutation.execute(printStream);
 //      DiagnosticMain.execute(scanner, printStream);
+    UMOMain.getOrbits(scanner, printStream);
 
 
     System.out.println("process complete.\nexit...");

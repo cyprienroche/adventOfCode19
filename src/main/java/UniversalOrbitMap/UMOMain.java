@@ -12,7 +12,8 @@ public class UMOMain {
     while (scanner.hasNext()) {
       orbits.add(scanner.next());
     }
-    int count = new UMO((String[]) orbits.toArray()).getOrbitNumber();
+    String[] strings = orbits.toArray(new String[0]);
+    int count = new UMO(strings).getOrbitNumber();
     printStream.println(count);
   }
 

@@ -8,13 +8,23 @@ import java.util.Scanner;
 public class UMOMain {
 
   public static void getOrbits(Scanner scanner, PrintStream printStream) {
+    String[] strings = generateGraph(scanner);
+    int count = new UMO(strings).getOrbitNumber();
+    printStream.println(count);
+  }
+
+  public static void getOrbitalTransfer(Scanner scanner, PrintStream printStream) {
+    String[] strings = generateGraph(scanner);
+    int count = new UMO(strings).orbitsYOUToSAN();
+    printStream.println(count);
+  }
+
+  private static String[] generateGraph(Scanner scanner) {
     List<String> orbits = new LinkedList<>();
     while (scanner.hasNext()) {
       orbits.add(scanner.next());
     }
-    String[] strings = orbits.toArray(new String[0]);
-    int count = new UMO(strings).getOrbitNumber();
-    printStream.println(count);
+    return orbits.toArray(new String[0]);
   }
 
 }

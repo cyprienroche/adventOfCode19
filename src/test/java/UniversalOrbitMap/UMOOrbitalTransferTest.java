@@ -46,13 +46,15 @@ public class UMOOrbitalTransferTest {
   }
 
   @Test
-  public void complex() {
+  public void planetInBetweenOnSameOrbitLevel() {
     UMO umo = new UMO(new String[]{
         "COM)B",
-        "B)YOU",
-        "COM)SAN",
+        "B)C",
+        "B)D",
+        "C)YOU",
+        "D)SAN",
     });
-    assertEquals(1, umo.orbitsYOUToSAN());
+    assertEquals(2, umo.orbitsYOUToSAN());
   }
 
   @Test

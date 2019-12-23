@@ -7,7 +7,7 @@ import org.junit.Test;
 public class UMOOrbitalTransferTest {
 
   @Test
-  public void simpleCase1() {
+  public void sameOrbitReturnsZero() {
     UMO umo = new UMO(new String[]{
         "COM)YOU",
         "COM)SAN",
@@ -16,7 +16,7 @@ public class UMOOrbitalTransferTest {
   }
 
   @Test
-  public void simpleCase2() {
+  public void sameOrbitReturnsZero2() {
     UMO umo = new UMO(new String[]{
         "COM)B",
         "B)YOU",
@@ -26,7 +26,7 @@ public class UMOOrbitalTransferTest {
   }
 
   @Test
-  public void simpleCase3() {
+  public void offByOneOrbitReturnsOne() {
     UMO umo = new UMO(new String[]{
         "COM)B",
         "COM)YOU",
@@ -36,12 +36,42 @@ public class UMOOrbitalTransferTest {
   }
 
   @Test
-  public void simpleCase4() {
+  public void offByOneOrbitReturnsOne2() {
     UMO umo = new UMO(new String[]{
         "COM)B",
         "B)YOU",
         "COM)SAN",
     });
     assertEquals(1, umo.orbitsYOUToSAN());
+  }
+
+  @Test
+  public void complex() {
+    UMO umo = new UMO(new String[]{
+        "COM)B",
+        "B)YOU",
+        "COM)SAN",
+    });
+    assertEquals(1, umo.orbitsYOUToSAN());
+  }
+
+  @Test
+  public void complexExample() {
+    UMO umo = new UMO(new String[]{
+        "COM)B",
+        "B)C",
+        "C)D",
+        "D)E",
+        "E)F",
+        "B)G",
+        "G)H",
+        "D)I",
+        "E)J",
+        "J)K",
+        "K)L",
+        "K)YOU",
+        "I)SAN",
+    });
+    assertEquals(4, umo.orbitsYOUToSAN());
   }
 }

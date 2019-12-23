@@ -48,18 +48,22 @@ public class UMO {
     if (src.equals(dst)) {
       return 0;
     }
-    Optional<Entry<String, String>> e1 = findPlanetOrbiting(src);
-    Optional<Entry<String, String>> e2 = findPlanetOrbiting(dst);
-    if (e1.isPresent() && e2.isPresent()) {
-      return 2 + orbitalDistance(e1.get().getKey(), e2.get().getKey());
+    Set<String> srcSet = generateSetToOrbit(src);
+    Set<String> dstSet = generateSetToOrbit(dst);
+
+    srcSet.removeAll(dstSet);
+    return srcSet.size() + dstSet.size();
+  }
+
+  private Set<String> generateSetToOrbit(String src) {
+    Set<String> set = new HashSet<>();
+    set.add(src);
+    String cur = src;
+    while (!cur.equals("COM")) {
+      cur = findPlanetOrbiting(cur).get().getKey();
+      set.add(cur);
     }
-    if (e1.isPresent()) {
-      return 1 + orbitalDistance(e1.get().getKey(), dst);
-    }
-    if (e2.isPresent()) {
-      return 1 + orbitalDistance(src, e2.get().getKey());
-    }
-    return 0;
+    return set;
   }
 
   private Optional<Entry<String, String>> findPlanetOrbiting(String src) {
@@ -68,24 +72,4 @@ public class UMO {
         .filter(e -> e.getValue().equals(src))
         .findFirst();
   }
-    /*
-    String newSrc = getPlanetFromOptional(src);
-    String newDst = getPlanetFromOptional(dst);
-
-    if (newSrc.equals(src) && newDst.equals(dst)) {
-      return 2 + orbitalDistance(newSrc, newDst);
-    }
-    if (newSrc.equals(src)) {
-      return 1 + orbitalDistance(newSrc, newDst);
-    }
-    if (newDst.equals(dst)) {
-      return 1 + orbitalDistance(newSrc, newDst);
-    }
-    return 0;
-  }
-
-  private String getPlanetFromOptional(String src) {
-    return findPlanetOrbiting(src).map(Entry::getKey).orElse(src);
-  }
-*/
 }

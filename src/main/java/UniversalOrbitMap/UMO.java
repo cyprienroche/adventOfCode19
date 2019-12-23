@@ -49,9 +49,11 @@ public class UMO {
       return 0;
     }
     Set<String> srcSet = generateSetToOrbit(src);
+    Set<String> tmp = Set.copyOf(srcSet);
     Set<String> dstSet = generateSetToOrbit(dst);
 
     srcSet.removeAll(dstSet);
+    dstSet.removeAll(tmp);
     return srcSet.size() + dstSet.size();
   }
 

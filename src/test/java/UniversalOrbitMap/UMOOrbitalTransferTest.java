@@ -67,7 +67,7 @@ public class UMOOrbitalTransferTest {
         "C)E",
         "E)YOU",
     });
-    assertEquals(2, umo.orbitsYOUToSAN());
+    assertEquals(3, umo.orbitsYOUToSAN());
   }
 
   @Test

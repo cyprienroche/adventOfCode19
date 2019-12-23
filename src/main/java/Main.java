@@ -33,7 +33,7 @@ public class Main {
 //    PasswordPermutation.PasswordPermutation.execute(printStream);
 //      DiagnosticMain.execute(scanner, printStream);
 //    UMOMain.getOrbits(scanner, printStream);
-    UMOMain.getOrbits(scanner, printStream);
+    UMOMain.getOrbitalTransfer(scanner, printStream);
 
 
     System.out.println("process complete.\nexit...");
